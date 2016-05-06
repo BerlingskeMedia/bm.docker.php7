@@ -30,6 +30,9 @@ ADD symfony.pool.conf /etc/php/7.0/fpm/pool.d/
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
+RUN usermod -u 1000 www-data
+RUN groupmod -g 1000 www-data
+
 ADD runit.sh /
 
 CMD ["/runit.sh"]
