@@ -1,5 +1,6 @@
 FROM ubuntu:xenial
 
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
 RUN apt-get update && \
     apt-get install -y ant && \
     apt-get install -y git && \
@@ -14,8 +15,10 @@ RUN apt-get update && \
     apt-get install -y php-bcmath && \
     apt-get install -y php-mbstring && \
     apt-get install -y mc && \
-    apt-get install -y vim
+    apt-get install -y vim && \
+    apt-get install nodejs npm -y
 
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN yes '' | pecl install apcu_bc-beta
 
 RUN echo 'extension=apcu.so' >> /etc/php/7.0/cli/php.ini && \
