@@ -5,7 +5,10 @@ if [ -z "${USER_ID}" ]; then
 fi
 
 usermod -u $USER_ID www-data
-groupmod -u $USER_ID www-data
+groupmod -g $USER_ID www-data
+
+echo "Starting supervisor:"
+/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 
 while true; do
     /etc/init.d/php7.0-fpm start
