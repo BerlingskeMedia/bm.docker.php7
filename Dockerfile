@@ -16,7 +16,7 @@ RUN apt-get update && \
     apt-get install -y php-mbstring && \
     apt-get install -y mc && \
     apt-get install -y vim && \
-    apt-get install nodejs npm -y \
+    apt-get install nodejs npm -y && \
     apt-get install supervisor
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
