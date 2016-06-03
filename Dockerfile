@@ -17,7 +17,7 @@ RUN apt-get update && \
     apt-get install -y mc && \
     apt-get install -y vim && \
     apt-get install nodejs npm -y && \
-    apt-get install supervisor
+    apt-get install supervisor -y
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN yes '' | pecl install apcu_bc-beta
