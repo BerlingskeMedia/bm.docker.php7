@@ -14,6 +14,7 @@ RUN apt-get update && \
     apt-get install -y php-redis && \
     apt-get install -y php-bcmath && \
     apt-get install -y php-mbstring && \
+    apt-get install -y php-gd && \
     apt-get install -y mc && \
     apt-get install -y vim && \
     apt-get install nodejs npm -y && \
