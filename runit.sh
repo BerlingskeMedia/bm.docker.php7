@@ -10,6 +10,9 @@ groupmod -g $USER_ID www-data
 echo "Starting supervisor:"
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 
+echo "Starting cron:"
+cron
+
 while true; do
     /etc/init.d/php7.0-fpm start
 done
