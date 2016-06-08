@@ -16,6 +16,8 @@ RUN apt-get update && \
     apt-get install -y php-mbstring && \
     apt-get install -y php-gd && \
     apt-get install -y mc && \
+    apt-get install -y cron && \
+    apt-get install -y sudo && \
     apt-get install -y vim && \
     apt-get install nodejs npm -y && \
     apt-get install supervisor -y
