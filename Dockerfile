@@ -24,7 +24,6 @@ RUN apt-get update && \
 RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 
-RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN yes '' | pecl install apcu_bc-beta
 
 RUN echo 'extension=apcu.so' >> /etc/php/7.0/cli/php.ini && \
