@@ -16,6 +16,7 @@ RUN apt-get update \
 		php-bcmath    \
 		php-mbstring  \
 		php-gd        \
+		php-imagick   \
 		mc            \
 		sudo          \
     && apt-get -y clean \
