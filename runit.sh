@@ -12,7 +12,3 @@ echo "Starting supervisor:"
 
 echo "Starting cron:"
 cron
-
-while true; do
-    /etc/init.d/php7.0-fpm start
-done
