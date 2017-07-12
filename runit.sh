@@ -12,3 +12,8 @@ echo "Starting supervisor:"
 
 echo "Starting cron:"
 cron
+
+mkdir -p /run/php/
+touch /run/php/php7.0-fpm.sock
+
+php-fpm7.0 -F
