@@ -42,9 +42,4 @@ ADD runit.sh /
 
 CMD ["/runit.sh"]
 
-RUN mkdir -p /run/php/ && \
-    touch /run/php/php7.0-fpm.sock
-
-CMD ["php-fpm7.0", "-F"]
-
 WORKDIR /var/www
