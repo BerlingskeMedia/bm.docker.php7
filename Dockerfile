@@ -3,25 +3,31 @@ FROM ubuntu:xenial
 ENV REFRESHED_AT "2017-10-16 14:30:00"
 
 RUN apt-get update \
+    && apt-get install software-properties-common -y \
     && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN apt-get update \
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y \
+    && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get purge -y php5*  \
+    && DEBIAN_FRONTEND=noninteractive apt-get purge -y php7*  \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y -q \
         curl          \
         wget          \
-        php7.0        \
-        php7.0-dev    \
-        php7.0-curl   \
-        php7.0-intl   \
-        php-mysql     \
-		php-redis     \
-		php-bcmath    \
-		php-mbstring  \
-		php-gd        \
-		php-imagick   \
+        php7.2        \
+        php7.2-common \
+        php7.2-cli    \
+        php7.2-fpm    \
+        php7.2-dev    \
+        php7.2-curl   \
+        php7.2-intl   \
+        php7.2-mysql  \
+		php7.2-redis  \
+		php7.2-bcmath \
+		php7.2-mbstring \
+		php7.2-gd     \
+		php7.2-imagick \
 		sudo          \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -57,27 +63,27 @@ RUN apt-get update \
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
 
-RUN echo 'extension=apcu.so' >> /etc/php/7.0/cli/php.ini && \
-    echo 'extension=apc.so' >> /etc/php/7.0/cli/php.ini && \
-    echo 'extension=apcu.so' >> /etc/php/7.0/fpm/php.ini && \
-    echo 'extension=apc.so' >> /etc/php/7.0/fpm/php.ini
+RUN echo 'extension=apcu.so' >> /etc/php/7.2/cli/php.ini && \
+    echo 'extension=apc.so' >> /etc/php/7.2/cli/php.ini && \
+    echo 'extension=apcu.so' >> /etc/php/7.2/fpm/php.ini && \
+    echo 'extension=apc.so' >> /etc/php/7.2/fpm/php.ini
 
-ADD opcache.ini /etc/php/7.0/mods-available/opcache.ini
+ADD opcache.ini /etc/php/7.2/mods-available/opcache.ini
 
 # Add empty ini file. Enables config runtime overriding of parameters
-RUN touch /etc/php/7.0/mods-available/devops.ini \
-    && ln -s /etc/php/7.0/mods-available/devops.ini /etc/php/7.0/fpm/conf.d/99-devops.ini \
-    && ln -s /etc/php/7.0/mods-available/devops.ini /etc/php/7.0/cli/conf.d/99-devops.ini
+RUN touch /etc/php/7.2/mods-available/devops.ini \
+    && ln -s /etc/php/7.2/mods-available/devops.ini /etc/php/7.2/fpm/conf.d/99-devops.ini \
+    && ln -s /etc/php/7.2/mods-available/devops.ini /etc/php/7.2/cli/conf.d/99-devops.ini
 
-ADD symfony.pool.conf /etc/php/7.0/fpm/pool.d/
+ADD symfony.pool.conf /etc/php/7.2/fpm/pool.d/
 
-RUN sed -i -e "s/^error_log =/;error_log =/" /etc/php/7.0/fpm/php-fpm.conf && \
-    sed -i -e "s/;daemonize = yes/daemonize = no/" /etc/php/7.0/fpm/php-fpm.conf && \
+RUN sed -i -e "s/^error_log =/;error_log =/" /etc/php/7.2/fpm/php-fpm.conf && \
+    sed -i -e "s/;daemonize = yes/daemonize = no/" /etc/php/7.2/fpm/php-fpm.conf && \
     sed -i -e "/^;error_log =/ a \
-error_log = /proc/self/fd/2 " /etc/php/7.0/fpm/php-fpm.conf
+error_log = /proc/self/fd/2 " /etc/php/7.2/fpm/php-fpm.conf
 
 RUN mkdir -p /run/php/ && \
-    touch /run/php/php7.0-fpm.sock
+    touch /run/php/php7.2-fpm.sock
 
 EXPOSE 9000 3000
 
@@ -85,6 +91,6 @@ ADD runit.sh /
 
 ENTRYPOINT ["/runit.sh"]
 
-CMD ["php-fpm7.0", "--nodaemonize", "--fpm-config", "/etc/php/7.0/fpm/php-fpm.conf"]
+CMD ["php-fpm7.2", "--nodaemonize", "--fpm-config", "/etc/php/7.2/fpm/php-fpm.conf"]
 
 WORKDIR /var/www
